@@ -87,6 +87,16 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script>
+      window.TrackJS && TrackJS.install({ 
+        token: "4b7f2b3e9a4d474294c4cd651b0dcb00",
+        // for more configuration options, see https://docs.trackjs.com
+        //application: "myapp"
+      });
+  </script>
+
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +112,87 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns.forEach(btn => {
+      btn.addEventListener('click', e => {
+        switch (btn.textContent) {
+          case 'Console Log':
+            console.log('This is a log message');
+            break;
+          case 'Console dirxml':
+            console.dirxml(document);
+            break;
+          case 'Console Count':
+            console.count('Counter');
+            break;
+          case 'Console Trace':
+            console.trace();
+            break;
+          case 'Console Assert':
+            console.assert(false, 'This is an assertion message');
+            break;
+          case 'Console Clear':
+            console.clear();
+            break;
+          case 'Console Error':
+            console.error('This is an error message');
+            break;
+          case 'Console Dir':
+            console.dir(document);
+            break;
+          case 'Console Group Start':
+            console.group('Grouped Messages');
+            console.log('First Grouped Message');
+            console.log('Second Grouped Message');
+            break;
+          case 'Console Group End':
+            console.groupEnd();
+            break;
+          case 'Console Warn':
+            console.warn('This is a warning message');
+            break;
+          case 'Console Table':
+            console.table([
+              ['Person', 'Location'],
+              ['Can', 'Palo Alto'],
+              ['Alp', 'Istanbul']
+            ]);
+            break;
+          case 'Start Timer':
+            console.time('Timer');
+            break;
+          case 'End Timer':
+            console.timeEnd('Timer');
+            break;
+          case 'Trigger a Global Error':
+            try {
+              throw new CustomError("Global Custom Error has been thrown");
+              TrackJS.track('Testing TrackJS!');
+            } catch (error) {
+              console.error('Global error triggered:', error);
+              alert(error.name);
+              alert(error.stack);
+            }
+            finally {
+              alert('Final Alert');
+            }
+        }
+      });
+    });
+
+    class CustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'CustomError';
+      }
+    }
+
+    // Example using CustomError
+    try {
+      throw new CustomError('Custom Error');
+    } catch (error) {
+      console.error(error.name + ' - ' + error.message);
+    }
+
   </script>
 </body>
 
